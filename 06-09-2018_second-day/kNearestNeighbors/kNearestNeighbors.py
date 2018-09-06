@@ -14,10 +14,10 @@ def createDataSet():
     labels = ['A','A','B','B']
     return group, labels
 
-def classify(inX, dataSet, labels, k):
+def classify(testData, dataSet, labels, k):
     size = dataSet.shape[0]
 
-    diffMatrix = np.tile(inX, (size,1)) - dataSet      # [point - point, point - point...]
+    diffMatrix = np.tile(testData, (size, 1)) - dataSet      # [point - point, point - point...]
     squareDiffMatrix = diffMatrix**2
 
     squareDistances = squareDiffMatrix.sum(axis=1)      # [x^2 + y^2, x^2 + y^2...]
