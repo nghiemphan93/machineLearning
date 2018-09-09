@@ -30,3 +30,21 @@ Notice:
 * Took lots of time with new library stuff
 * Code not worked because of different Python's version
 * 2 types of Array in Python: normal and numPy's array (for direct matrix calculation)
+
+### 07-09-2018
+Target: 
+* Learn Naive Bayes, Linear Regression and Neural Networks
+
+Problem:
+
+
+Done: 
+* Overview of Naive Bayes and Neural Networks
+* Linear regression implementation
+
+
+Notice: 
+* Explanation of Naive Bayes in the book "thoughtful learning with python" was unclear -> had to find some other sources to read more
+* Videos are more helpful because of interactions
+* Still have some troubles with plotting, visualizing data in Python -> should be mastered before getting into algorithms
+* Using sklearn library first might be helpful to get some feeling about the algorithms before actually implement them 

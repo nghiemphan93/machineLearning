@@ -10,7 +10,6 @@ from sklearn.model_selection import train_test_split
 def createDataSet():
     group = np.array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])
     labels = ['A','A','B','B']
-
     return group, labels
 
 def classify(testData, dataSet, labels, k):
@@ -18,7 +17,6 @@ def classify(testData, dataSet, labels, k):
     distance = calcDistance(dataSet, size, testData)
     sortedDistanceIndex = distance.argsort()
     sortedLabelCount = voteLabel(k, labels, sortedDistanceIndex)
-
     return sortedLabelCount
 
 def calcDistance(dataSet, size, testData):
@@ -26,7 +24,6 @@ def calcDistance(dataSet, size, testData):
     squareDiffMatrix = diffMatrix ** 2
     squareDistances = squareDiffMatrix.sum(axis=1)
     distances = np.sqrt(squareDistances)
-
     return distances
 
 def voteLabel(k, labels, sortedDistIndicies):
@@ -34,9 +31,7 @@ def voteLabel(k, labels, sortedDistIndicies):
     for i in range(k):
         voteIlabel = labels[sortedDistIndicies[i]]
         labelCount[voteIlabel] = labelCount.get(voteIlabel, 0) + 1
-
     sortedClassCount = sorted(labelCount.items(), key=operator.itemgetter(1), reverse=True)
-
     return sortedClassCount
 
 def calcSuccess(result, dataTestLabel):
@@ -44,7 +39,6 @@ def calcSuccess(result, dataTestLabel):
     for i in range(len(result)):
         if (dataTestLabel[i] == result[i]):
             counter = counter + 1
-            
     return counter / len(result) * 100.0
 # endregion
 

@@ -18,16 +18,18 @@ class TrafficLight:
 
     def changeColor(self):
         currIndex = self.colorLoop.index(self.color)
-
         if(currIndex == len(self.colorLoop)-  1 ):
             self.color = self.colorLoop[0]
         else:
             self.color = self.colorLoop[currIndex + 1]
 
-ampel = TrafficLight(LightColor.GREEN)
+    def simulateColorSequence(self):
+        while (True):
+            print(ampel.color)
+            ampel.changeColor()
+            time.sleep(1)
 
-# Sequence
-while(True):
-    print(ampel.color)
-    ampel.changeColor()
-    time.sleep(1)
+
+# Demo
+ampel = TrafficLight(LightColor.GREEN)
+ampel.simulateColorSequence()
