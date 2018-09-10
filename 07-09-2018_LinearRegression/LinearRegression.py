@@ -1,7 +1,6 @@
 from statistics import mean
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy import float64
 
 
 # Calculate the best fit line y = a*x + b, given all data pairs
@@ -42,5 +41,7 @@ plt.scatter(X, y)
 plt.scatter(testX, predictY, color="brown")
 plt.plot(X, yHat)
 plt.show()
+
+print(a, b)
 
 print(correlationCoefficient(y, yHat))

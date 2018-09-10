@@ -48,3 +48,20 @@ Notice:
 * Videos are more helpful because of interactions
 * Still have some troubles with plotting, visualizing data in Python -> should be mastered before getting into algorithms
 * Using sklearn library first might be helpful to get some feeling about the algorithms before actually implement them 
+
+
+### 10-09-2018
+Target: 
+* Solve linear regression with gradient descent
+
+Problem:
+* Given a data set pairs X, y
+* Find the function yHat = a*x + b to represent relationship between x and y
+
+Done: 
+* Iterate through each data pair, minimize error and optimize a and b
+ 
+
+Notice: 
+* Set appropriate "alpha" as learning rate so that a and b match gradually after each iteration 
+* Already worked with the example in code but does not work for other data set -> maybe because of inappropriate "alpha"???
