@@ -53,15 +53,18 @@ Notice:
 ### 10-09-2018
 Target: 
 * Solve linear regression with gradient descent
+* Implement logistic regression with gradient descent 
 
 Problem:
 * Given a data set pairs X, y
 * Find the function yHat = a*x + b to represent relationship between x and y
+* In case of logistic regression: find yHat = ax1 + bx2 + c to calculate the probability of the guessed label
 
 Done: 
-* Iterate through each data pair, minimize error and optimize a and b
+* 10 iterations through each data pair, minimize error and optimize a, b and c
+* Probability for logistic regression is pretty impressive, almost perfect
  
 
 Notice: 
 * Set appropriate "alpha" as learning rate so that a and b match gradually after each iteration 
-* Already worked with the example in code but does not work for other data set -> maybe because of inappropriate "alpha"???
+* Linear Regression: already worked with the example in code but does not work for other data set -> maybe because of inappropriate "alpha"???
