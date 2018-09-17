@@ -48,7 +48,9 @@ partial_y_train = y_train[10000:]
 
 model = models.Sequential()
 model.add(layers.Dense(32, activation='relu', input_shape=(10000,)))
+model.add(layers.Dropout(0.5))
 model.add(layers.Dense(32, activation='relu'))
+model.add(layers.Dropout(0.5))
 model.add(layers.Dense(1, activation='sigmoid'))
 
 model.compile(optimizer='adam',
@@ -58,8 +60,8 @@ model.compile(optimizer='adam',
 
 history = model.fit(partial_x_train,
                     partial_y_train,
-                    epochs=32,
-                    batch_size=15000,
+                    epochs=10,
+                    batch_size=512,
                     validation_data=(x_val, y_val))
 
 historyDict = history.history
