@@ -7,11 +7,14 @@ import matplotlib.pyplot as plt
 
 # The path to the directory where the original
 # dataset was uncompressed
-original_dataset_dir = '/Users/phan/Downloads/DataSet/DogCat/train'
+from tensorflow.python.keras import callbacks
+
+
+original_dataset_dir = 'C:/Users/phan/Downloads/DataSet/DogCat/train'
 
 # The directory where we will
 # store our smaller dataset
-base_dir = '/Users/phan/Downloads/DataSet/DogCat/cats_and_dogs_small'
+base_dir = 'C:/Users/phan/Downloads/DataSet/DogCat/cats_and_dogs_small'
 if os.path.exists(base_dir):
     shutil.rmtree(base_dir)
 os.mkdir(base_dir)
@@ -97,18 +100,27 @@ model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu',
                         input_shape=(150, 150, 3)))
 model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Dropout(0.25))
+
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Dropout(0.25))
+
 model.add(layers.Conv2D(128, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+model.add(layers.Dropout(0.25))
+
+model.add(layers.Conv2D(256, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Dropout(0.25))
+
 model.add(layers.Flatten())
 model.add(layers.Dense(512, activation='relu'))
+model.add(layers.Dropout(0.5))
 model.add(layers.Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy',
-              optimizer=optimizers.RMSprop(lr=1e-4),
+              optimizer="rmsprop",
               metrics=['acc'])
 
 # All images will be rescaled by 1./255
@@ -130,12 +142,14 @@ validation_generator = test_datagen.flow_from_directory(
         batch_size=20,
         class_mode='binary')
 
+tbCallBack = callbacks.TensorBoard(log_dir='./log', histogram_freq=0, write_graph=True, write_images=True)
 history = model.fit_generator(
       train_generator,
       steps_per_epoch=100,
-      epochs=30,
+      epochs=20,
       validation_data=validation_generator,
-      validation_steps=50)
+      validation_steps=50,
+      callbacks=[])
 
 model.save('cats_and_dogs_small_1.h5')
 
@@ -159,3 +173,6 @@ plt.title('Training and validation loss')
 plt.legend()
 
 plt.show()
+
+
+model.save("dogcat.h5")
