@@ -20,6 +20,9 @@ test_images = test_images.astype('float32') / 255
 train_labels = to_categorical(train_labels)
 test_labels = to_categorical(test_labels)
 
+print(train_labels.shape)
+print(train_labels[5])
+
 network = models.Sequential()
 network.add(layers.Dense(512, activation='relu', input_shape=(28 * 28,)))
 network.add(layers.Dense(10, activation='softmax'))

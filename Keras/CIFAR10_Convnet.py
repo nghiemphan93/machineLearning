@@ -7,10 +7,10 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.optimizers import SGD, Adam, RMSprop
-
+from time import time
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from tensorflow.keras.callbacks import TensorBoard
+from keras.callbacks import TensorBoard
 
 
 
@@ -20,7 +20,7 @@ WIDTH   = 32
 CHANNEL = 3
 NUMB_LABEL  = 10
 VERBOSE     = 1
-BATCH_SIZE  = 128
+BATCH_SIZE  = 64
 NUMB_EPOCHS = 10
 
 # Augmenting
@@ -65,14 +65,20 @@ model   = Sequential()
 model.add(Conv2D(64, (3, 3), padding="same",
                  input_shape=(HEIGHT, WIDTH, CHANNEL),
                  activation="relu"))
+model.add(Conv2D(64, (3, 3), padding="same",
+                 activation="relu"))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 
 model.add(Conv2D(128, (3, 3), padding="same",
                  activation="relu"))
+model.add(Conv2D(128, (3, 3), padding="same",
+                 activation="relu"))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(0.25))
 
+model.add(Conv2D(256, (3, 3), padding="same",
+                 activation="relu"))
 model.add(Conv2D(256, (3, 3), padding="same",
                  activation="relu"))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -91,14 +97,14 @@ model.compile(loss="categorical_crossentropy",
               optimizer=optimizers.RMSprop(lr=1e-4),
               metrics=["accuracy"])
 
-tensorboard = TensorBoard(log_dir="./logs", histogram_freq=0, write_graph=True, write_images=True)
-tensorboard.set_model(model)
+tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
+
 history = model.fit(xTrain, yTrain,
                     batch_size=BATCH_SIZE,
                     epochs=NUMB_EPOCHS,
                     validation_split=0.2,
                     verbose=VERBOSE,
-                    callbacks=[])
+                    callbacks=[tensorboard])
 score = model.evaluate(xTest, yTest, batch_size=BATCH_SIZE, verbose=VERBOSE)
 
 print("Test score: ", score[0])

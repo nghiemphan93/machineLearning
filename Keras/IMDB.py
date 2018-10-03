@@ -35,6 +35,8 @@ print(train_data[0])
 print(x_train[0])
 print(len(train_data[0]))
 
+print("test label shape: ", test_labels.shape)
+
 
 # Our vectorized labels
 y_train = np.asarray(train_labels).astype('float32')
