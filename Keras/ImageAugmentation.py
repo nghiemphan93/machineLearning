@@ -35,7 +35,7 @@ generator = ImageDataGenerator(rotation_range=180,
                                zoom_range=0.2,
                                channel_shift_range=10,
                                horizontal_flip=True)
-imagePath = "C:/Users/phan/Downloads/DataSet/DogCat/cats_and_dogs_small/lon/cat/cat.1827.jpg"
+imagePath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/DogCat/cats_and_dogs_small/lon/cat/cat.42.jpg"
 
 # Obtain imag
 img = image.load_img(imagePath, target_size=(244, 244))
@@ -44,7 +44,7 @@ img = np.expand_dims(img, axis=0)
 
 
 augIter = generator.flow(img,
-                         save_to_dir="C:/Users/phan/Downloads/DataSet/DogCat/cats_and_dogs_small/lon/augment", save_format="jpg",
+                         save_to_dir="C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/DogCat/cats_and_dogs_small/lon/augment", save_format="jpg",
                          )
 
 
