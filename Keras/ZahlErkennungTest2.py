@@ -19,12 +19,13 @@ def loadImages(folder: str):
     return images
 
 
-
-model: Model = load_model("zahlErkennung3.h5")
+modelPath = "C:/Users/phan/OneDrive - adesso Group/model/zahlErkennung3.h5"
+model: Model = load_model(modelPath)
 
 testFolder = "./testNumber/"
 images = loadImages(testFolder)
 print(images.shape)
 results = model.predict(images)
+print(results)
 print(np.argmax(results, axis=1) + 10)
 
