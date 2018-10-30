@@ -4,6 +4,8 @@ from keras.utils.np_utils import to_categorical
 from keras import models
 from keras import layers
 import matplotlib.pyplot as plt
+from matplotlib import style
+style.use('fivethirtyeight')
 
 def vectorize_sequences(sequences, dimension=10000):
     results = np.zeros((len(sequences), dimension))
