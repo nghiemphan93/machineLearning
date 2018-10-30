@@ -4,17 +4,19 @@ from keras import layers
 from keras import models
 from keras import optimizers
 import matplotlib.pyplot as plt
+from matplotlib import style
+style.use('fivethirtyeight')
 
 # The path to the directory where the original
 # dataset was uncompressed
 from tensorflow.python.keras import callbacks
 
 
-original_dataset_dir = 'C:/Users/phan/Downloads/DataSet/DogCat/train'
+original_dataset_dir = 'C:/Users/phan/OneDrive - adesso Group/DataSet/DogCat/train'
 
 # The directory where we will
 # store our smaller dataset
-base_dir = 'C:/Users/phan/Downloads/DataSet/DogCat/cats_and_dogs_small'
+base_dir = 'C:/Users/phan/OneDrive - adesso Group/DataSet/DogCat/cats_and_dogs_small'
 if os.path.exists(base_dir):
     shutil.rmtree(base_dir)
 os.mkdir(base_dir)

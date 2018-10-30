@@ -37,5 +37,7 @@ mainDf.dropna(inplace=True)
 print(mainDf)
 print(mainDf.info())
 
-
+seqLen = 60
+futurePeriodPredict = 3
+ratioToPredict = "LTC-USD"
 

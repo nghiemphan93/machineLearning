@@ -6,6 +6,8 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Embedding, LSTM, CuDNNLSTM, Bidirectional, GRU, CuDNNGRU, SpatialDropout1D, Dropout, Conv2D, Conv1D, GlobalMaxPooling1D
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib import style
+style.use('fivethirtyeight')
 
 trainPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/sentimentClassification/training.txt"
 testPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/sentimentClassification/testdata.txt"
@@ -110,3 +112,22 @@ history = model.fit(data, label,
                     epochs=20,
                     validation_split=0.2)
 
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+epochs = range(1, len(loss) + 1)
+plt.plot(epochs, loss, 'r', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
+acc = history.history['acc']
+val_acc = history.history['val_acc']
+plt.plot(epochs, acc, 'r', label='Training acc')
+plt.plot(epochs, val_acc, 'b', label='Validation acc')
+plt.title('Training and validation accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+plt.show()
