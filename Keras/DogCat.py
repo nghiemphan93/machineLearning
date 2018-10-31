@@ -12,11 +12,11 @@ style.use('fivethirtyeight')
 from tensorflow.python.keras import callbacks
 
 
-original_dataset_dir = 'C:/Users/phan/OneDrive - adesso Group/DataSet/DogCat/train'
+original_dataset_dir = 'C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/DogCat/train'
 
 # The directory where we will
 # store our smaller dataset
-base_dir = 'C:/Users/phan/OneDrive - adesso Group/DataSet/DogCat/cats_and_dogs_small'
+base_dir = 'C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/DogCat/cats_and_dogs_small'
 if os.path.exists(base_dir):
     shutil.rmtree(base_dir)
 os.mkdir(base_dir)
@@ -162,19 +162,18 @@ val_loss = history.history['val_loss']
 
 epochs = range(len(acc))
 
-plt.plot(epochs, acc, 'bo', label='Training acc')
-plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
+plt.plot(epochs, acc, 'b', label='Training acc')
+plt.plot(epochs, val_acc, 'r', label='Validation acc')
+plt.title('Dog CatTraining and validation accuracy')
 plt.legend()
 
 plt.figure()
 
-plt.plot(epochs, loss, 'bo', label='Training loss')
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
+plt.plot(epochs, loss, 'b', label='Training loss')
+plt.plot(epochs, val_loss, 'r', label='Validation loss')
+plt.title('Dog Cat Training and validation loss')
 plt.legend()
-
 plt.show()
 
 
-model.save("dogcat.h5")
+#model.save("dogcat.h5")

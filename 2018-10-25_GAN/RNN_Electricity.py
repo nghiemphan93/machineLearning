@@ -8,15 +8,15 @@ from keras.layers import Bidirectional, Flatten, Dense, Embedding, LSTM, CuDNNLS
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib import style
-from sklearn.preprocessing import normalize
-style.use('fivethirtyeight')
+#style.use('fivethirtyeight')
 pd.set_option('display.expand_frame_repr', False)
-
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import normalize
 
 
 def loadData():
-   trainPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/electricity/LD2011_2014.txt"
-   df = pd.read_csv(trainPath, delimiter=";",  nrows=10000, decimal=",")
+   trainPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/electricity/LD2011_2014.txt"
+   df = pd.read_csv(trainPath, delimiter=";", decimal=",")
    df = df.rename(columns={"Unnamed: 0": "time"})
    df["time"] = pd.to_datetime(df["time"])
    df = df.set_index("time")
@@ -34,8 +34,8 @@ def loadData():
    plt.show()
 
 
-trainPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/electricity/LD2011_2014.txt"
-df = pd.read_csv(trainPath, delimiter=";",   decimal=",")
+trainPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/electricity/LD2011_2014.txt"
+df = pd.read_csv(trainPath, delimiter=";",  decimal=",")
 df = df.rename(columns={"Unnamed: 0": "time"})
 df["time"] = pd.to_datetime(df["time"])
 df = df.set_index("time")
@@ -46,13 +46,28 @@ kunde["training"] = kunde["MT_250"]
 kunde = kunde.drop("MT_250", axis=1)
 #kunde["target"] = kunde["training"].shift(periods=-1)
 #kunde = kunde.dropna(how="any")
-
-TIME_STEPS = 20
+'''
+kunde.iloc[1000:1500, -1].plot()
+plt.title("Electricity Usage")
+plt.show()
+'''
+print(kunde["training"])
+TIME_STEPS = 1
 
 temp = kunde.values
-temp = normalize(temp, axis=0)
+#temp = normalize(temp, axis=0)
+'''
+temp = temp.reshape(-1,1)
+print(temp.shape)
+scaler = MinMaxScaler(feature_range=(0,1), copy=False)
+temp = scaler.fit_transform(temp)
+'''
 data = temp[:, 0]
 #data = np.reshape(data, (data.shape[0], 1))
+'''
+for i in range(len(data)):
+   print(data[i])
+'''
 
 x = np.zeros((data.shape[0], TIME_STEPS))
 Y = np.zeros((data.shape[0], 1))
@@ -72,10 +87,6 @@ testLabel = Y[int(0.8*len(Y)):]
 
 
 
-print(trainingData.shape)
-print(testData.shape)
-print(testLabel.shape)
-
 
 '''
 trainingData = np.reshape(trainingData, (trainingData.shape[0], trainingData.shape[1], 1))
@@ -87,26 +98,26 @@ model = Sequential()
 model.add(CuDNNLSTM(64, input_shape=(TIME_STEPS, 1), return_sequences=True))
 model.add(Dropout(0.3))
 model.add(CuDNNLSTM(64))
-model.add(Dropout(0.5))
+model.add(Dropout(0.3))
 model.add(Dense(1))
 
-model.compile(loss="mean_squared_error",
+model.compile(loss="mae",
               optimizer="adam",
-              metrics=["mean_squared_error"])
-model.fit(trainingData, trainingLabel, epochs=20, batch_size=96, validation_split=0.2, shuffle=False)
+              metrics=["mae"])
+model.fit(trainingData, trainingLabel, epochs=10, batch_size=96, validation_split=0.2, shuffle=False)
 
-score, _ = model.evaluate(testData, testLabel, batch_size=96)
+mse, mae = model.evaluate(testData, testLabel, batch_size=96)
 
-rmse = math.sqrt(score)
-print(testData)
-print(testLabel)
+
+
 result = model.predict(testData)
-print(result)
-print(rmse)
-print(score)
+#print(result)
+print(mae)
+
 
 length = range(len(x))
-plt.plot(length, data, "b", label="data")
-plt.plot(length[int(0.8*len(length)):], result, "r", label="predict")
+plt.title("Electricity Prediction")
+plt.plot(length[-2000:-1700], data[-2000:-1700], "b", label="actual data")
+plt.plot(length[-2000:-1700], result[-2000:-1700], "r", label="predict")
 plt.legend()
 plt.show()

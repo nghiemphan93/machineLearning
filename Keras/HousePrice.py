@@ -26,10 +26,12 @@ def build_model():
 
     model = models.Sequential()
     model.add(layers.Dense(128, activation='relu',
-                           input_shape=(train_data.shape[1],)))
+                           input_shape=(13, )))
+    model.add(layers.Dropout(0.3))
     model.add(layers.Dense(128, activation='relu'))
+    model.add(layers.Dropout(0.3))
     model.add(layers.Dense(1))
-    model.compile(optimizer='rmsprop', loss='mse', metrics=['mae'])
+    model.compile(optimizer='rmsprop', loss='mae', metrics=['mae'])
 
 
     history = model.fit(partial_x_train,
@@ -55,10 +57,10 @@ def build_model():
 
 def loadData():
    (trainData, trainTarget), (testData, testTarget) = boston_housing.load_data()
-   print(trainData)
+   print(trainData.shape[1])
    print(trainTarget)
 
-loadData()
+build_model()
 
 
 

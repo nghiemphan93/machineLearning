@@ -15,6 +15,9 @@ from keras.preprocessing import image
 from keras.utils import to_categorical
 from keras.preprocessing.image import ImageDataGenerator
 from keras import optimizers
+import pandas as pd
+from matplotlib import style
+style.use('fivethirtyeight')
 
 def separateTrainValidation(baseFolder):
     originalFolder      = os.path.join(baseFolder, "original")
@@ -65,7 +68,7 @@ def separateTrainValidation(baseFolder):
 
 
 
-baseFolder = "C:/Users/phan/Downloads/DataSet/number"
+baseFolder = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/number"
 #separateTrainValidation(baseFolder)
 originalFolder = os.path.join(baseFolder, "original")
 samplesFolder = os.path.join(baseFolder, "samples")
@@ -131,25 +134,20 @@ history = model.fit_generator(trainBatches,
                               validation_data=validBatches,
                               validation_steps=34)
 
-model.save("zahlErkennung3.h5")
+#model.save("zahlErkennung3.h5")
 
 acc = history.history['acc']
 val_acc = history.history['val_acc']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
-
 epochs = range(len(acc))
-
-plt.plot(epochs, acc, 'bo', label='Training acc')
-plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
+plt.plot(epochs, acc, 'b', label='Training acc')
+plt.plot(epochs, val_acc, 'r', label='Validation acc')
+plt.title('Number Training and validation accuracy')
 plt.legend()
-
 plt.figure()
-
-plt.plot(epochs, loss, 'bo', label='Training loss')
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
+plt.plot(epochs, loss, 'b', label='Training loss')
+plt.plot(epochs, val_loss, 'r', label='Validation loss')
+plt.title('Number Training and validation loss')
 plt.legend()
-
 plt.show()
