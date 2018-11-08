@@ -9,8 +9,8 @@ import pandas as pd
 from matplotlib import style
 style.use('fivethirtyeight')
 
-trainPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/sentimentClassification/training.txt"
-testPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/sentimentClassification/testdata.txt"
+trainPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/sentimentClassification/training.txt"
+testPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/sentimentClassification/testdata.txt"
 
 def loadData():
    file  = open(trainPath, encoding="utf8")
@@ -50,6 +50,17 @@ wordIndex = tokenizer.word_index
 data  = pad_sequences(sequence, maxlen=MAX_COMMENT_SIZE)
 label = np.asarray(label)
 
+oneHotResult = tokenizer.sequences_to_matrix(sequence)
+
+print(list(oneHotResult[0]))
+x = ["The", "Da", "Vinci", "Code", "book", "is", "just", "awesome", "."]
+print(data.shape)
+print(sequence[0])
+print(text[0])
+
+print(sequence[4])
+print(text[4])
+
 # Shuffle data and labels
 indices = np.arange(data.shape[0])
 np.random.shuffle(indices)
@@ -57,7 +68,7 @@ data  = data[indices]
 label = label[indices]
 
 # Process embedding
-gloveFolder = "C:/Users/phan/OneDrive - adesso Group/DataSet/glove6b"
+gloveFolder = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/glove6b"
 gloveFile = "glove.6B.100d.txt"
 
 embeddingIndex = {}
@@ -84,15 +95,18 @@ model.add(Embedding(input_dim=VOCAB_SIZE,
                     output_dim=EMBED_DIM,
                     input_length=MAX_COMMENT_SIZE,
                     weights=[embeddingMatrix],
-                    trainable=False))
-
+                    trainable=True))
+model.add(CuDNNLSTM(64, return_sequences=True))
+model.add(CuDNNLSTM(64, return_sequences=False))
+model.add(Dropout(0.3))
+model.add(Dense(1, activation="sigmoid"))
+'''
 model.add(Conv1D(filters=NUMB_FILTERS,
                  kernel_size=3,
                  activation="relu"))
 model.add(SpatialDropout1D(0.2))
 model.add(GlobalMaxPooling1D())
-model.add(Dense(1, activation="sigmoid"))
-
+'''
 
 '''
 model.add(Flatten())
@@ -109,24 +123,24 @@ model.compile(loss="binary_crossentropy",
               metrics=["acc"])
 history = model.fit(data, label,
                     batch_size=256,
-                    epochs=20,
+                    epochs=10,
                     validation_split=0.2)
 
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 epochs = range(1, len(loss) + 1)
-plt.plot(epochs, loss, 'r', label='Training loss')
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
+plt.plot(epochs, loss, 'b', label='Training loss')
+plt.plot(epochs, val_loss, 'r', label='Validation loss')
+plt.title('Sentiment FineTune\n Training and validation loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 plt.show()
 acc = history.history['acc']
 val_acc = history.history['val_acc']
-plt.plot(epochs, acc, 'r', label='Training acc')
-plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
+plt.plot(epochs, acc, 'b', label='Training acc')
+plt.plot(epochs, val_acc, 'r', label='Validation acc')
+plt.title('Sentiment FineTune\n Training and validation accuracy')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()

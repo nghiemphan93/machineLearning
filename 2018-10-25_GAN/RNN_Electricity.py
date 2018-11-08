@@ -52,33 +52,43 @@ plt.title("Electricity Usage")
 plt.show()
 '''
 print(kunde["training"])
-TIME_STEPS = 1
+LOOK_BACK = 672
+PREDICT = 672
 
 temp = kunde.values
 #temp = normalize(temp, axis=0)
 '''
 temp = temp.reshape(-1,1)
-print(temp.shape)
 scaler = MinMaxScaler(feature_range=(0,1), copy=False)
 temp = scaler.fit_transform(temp)
 '''
 data = temp[:, 0]
 #data = np.reshape(data, (data.shape[0], 1))
-'''
-for i in range(len(data)):
-   print(data[i])
-'''
 
-x = np.zeros((data.shape[0], TIME_STEPS))
+
+'''
+x = np.zeros((data.shape[0], LOOK_BACK))
 Y = np.zeros((data.shape[0], 1))
 
-for i in range(len(data) - TIME_STEPS - 1):
-   x[i] = data[i:i + TIME_STEPS].T
-   Y[i] = data[i + TIME_STEPS + 1]
-
+for i in range(len(data) - LOOK_BACK - 1):
+   x[i] = data[i:i + LOOK_BACK].T
+   Y[i] = data[i + LOOK_BACK + 1]
 
 x = np.expand_dims(x, axis=2)
+'''
 
+# Test new
+x = []
+Y = []
+for i in range(LOOK_BACK, len(data) - PREDICT):
+   x.append(data[i - LOOK_BACK:i])
+   Y.append(data[i + PREDICT])
+x = np.asarray(x)
+Y = np.asarray(Y)
+x = np.reshape(x,
+               (x.shape[0], x.shape[1], 1))
+
+print(x.shape)
 
 trainingData = x[:int(0.8*len(x))]
 trainingLabel = Y[:int(0.8*len(Y))]
@@ -95,16 +105,22 @@ testData = np.reshape(testData, (testData.shape[0], testData.shape[1], 1))
 
 
 model = Sequential()
-model.add(CuDNNLSTM(64, input_shape=(TIME_STEPS, 1), return_sequences=True))
-model.add(Dropout(0.3))
-model.add(CuDNNLSTM(64))
-model.add(Dropout(0.3))
+model.add(CuDNNGRU(64, input_shape=(LOOK_BACK, 1), return_sequences=True))
+model.add(Dropout(0.2))
+model.add(CuDNNGRU(64, return_sequences=True))
+model.add(Dropout(0.2))
+model.add(CuDNNGRU(64, return_sequences=False))
+model.add(Dropout(0.2))
 model.add(Dense(1))
 
 model.compile(loss="mae",
               optimizer="adam",
               metrics=["mae"])
-model.fit(trainingData, trainingLabel, epochs=10, batch_size=96, validation_split=0.2, shuffle=False)
+model.fit(trainingData, trainingLabel,
+          epochs=10,
+          batch_size=96,
+          validation_split=0.2,
+          shuffle=False)
 
 mse, mae = model.evaluate(testData, testLabel, batch_size=96)
 

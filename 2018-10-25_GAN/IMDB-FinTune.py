@@ -4,25 +4,48 @@ from keras import Sequential
 import numpy as np
 from keras.datasets import imdb
 from keras.preprocessing import sequence
+import os
 
 maxFeatures = 10000
 maxLen = 500
 batchSize = 32
+VOCAB_SIZE       = 10000     # consider top 10000 words in dictionary
+EMBED_DIM        = 100
 
 print("loading...")
 (inputTrain, yTrain), (inputTest, yTest) = imdb.load_data(num_words=maxFeatures)
 
-print(inputTrain)
+
 
 inputTrain = sequence.pad_sequences(inputTrain, maxlen=maxLen)
 inputTest = sequence.pad_sequences(inputTest, maxlen=maxLen)
 
-print(inputTrain)
+
+# Process embedding
+gloveFolder = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/glove6b"
+gloveFile = "glove.6B.100d.txt"
+
+embeddingIndex = {}
+f = open(os.path.join(gloveFolder, gloveFile), encoding="utf8")
+for line in f:
+   values = line.split()
+   word = values[0]
+   coeffs = np.asarray(values[1:], dtype="float32")
+   embeddingIndex[word] = coeffs
+f.close()
+
+embeddingMatrix = np.zeros((VOCAB_SIZE, EMBED_DIM))
+for word, i in wordIndex.items():
+   if i < VOCAB_SIZE:
+      embeddingVector = embeddingIndex.get(word)
+      if embeddingVector is not None:
+         embeddingMatrix[i] = embeddingVector
+
 
 
 model = Sequential()
-model.add(Embedding(maxFeatures, 32))
-model.add(CuDNNGRU(32))
+model.add(Embedding(maxFeatures, 32, weights=[embeddingMatrix], trainable=False))
+model.add(CuDNNLSTM(32))
 model.add(Dense(1, activation="sigmoid"))
 
 model.compile(optimizer="rmsprop",

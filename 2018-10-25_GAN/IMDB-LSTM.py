@@ -3,7 +3,7 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Embedding
+from keras.layers import Flatten, Dense, Embedding, LSTM, CuDNNLSTM
 import matplotlib.pyplot as plt
 
 trainPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/imdb/train"
@@ -11,8 +11,6 @@ testPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/imdb/test"
 
 labels   = []
 texts    = []
-
-print("loading...")
 
 for labelType in ["neg", "pos"]:
    folder = os.path.join(trainPath, labelType)
@@ -26,9 +24,9 @@ for labelType in ["neg", "pos"]:
          else:
             labels.append(1)
 
-maxlen            = 400    # takes first 400 words
-trainningSamples  = 10000    # train on 200 samples
-validationSamples = 2000  # validate on 10000 samples
+maxlen            = 600    # takes first 600 words
+trainningSamples  = 10000    # train on 10000 samples
+validationSamples = 2000  # validate on 2000 samples
 maxWords          = 10000  # consider top 10000 words in dataset
 
 tokenizer = Tokenizer(num_words=maxWords)
@@ -40,10 +38,6 @@ data = pad_sequences(sequences, maxlen=maxlen)
 
 labels = np.asarray(labels)
 
-print(texts[0])
-print(data[0])
-
-'''
 # Shuffle data and labels
 indices = np.arange(data.shape[0])
 np.random.shuffle(indices)
@@ -78,21 +72,25 @@ for word, i in wordIndex.items():
       if embeddingVector is not None:
          embeddingMatrix[i] = embeddingVector
 
-'''
 
-'''
 # Train model
 model = Sequential()
-model.add(Embedding(maxWords, embeddingDim, input_length=maxlen))
-model.add(Flatten())
-model.add(Dense(32, activation="relu"))
+#model.add(Embedding(maxWords, embeddingDim, input_length=maxlen))
+model.add(Embedding(input_dim=maxWords,
+                    output_dim=embeddingDim,
+                    input_length=maxlen,
+                    weights=[embeddingMatrix],
+                    trainable=True))
+model.add(CuDNNLSTM(32, return_sequences=True))
+model.add(CuDNNLSTM(32))
 model.add(Dense(1, activation="sigmoid"))
-model.summary()
 
+
+'''
 model.layers[0].set_weights([embeddingMatrix])
 model.layers[0].trainable = False
-
-model.compile(optimizer="rmsprop",
+'''
+model.compile(optimizer="adam",
               loss="binary_crossentropy",
               metrics=["acc"])
 history = model.fit(trainData, trainLabel,
@@ -116,4 +114,3 @@ plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
 plt.legend()
 plt.show()
-'''

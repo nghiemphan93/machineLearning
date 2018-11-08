@@ -6,8 +6,8 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Embedding, LSTM, CuDNNLSTM
 import matplotlib.pyplot as plt
 
-trainPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/imdb/train"
-testPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/imdb/test"
+trainPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/imdb/train"
+testPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/imdb/test"
 
 labels   = []
 texts    = []
@@ -52,7 +52,7 @@ validLabel  = labels[trainningSamples: trainningSamples + validationSamples]
 
 
 # Process embedding
-gloveFolder = "C:/Users/phan/OneDrive - adesso Group/DataSet/glove6b"
+gloveFolder = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/glove6b"
 gloveFile = "glove.6B.100d.txt"
 
 embeddingIndex = {}

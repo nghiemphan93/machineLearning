@@ -1,18 +1,25 @@
 import matplotlib.pyplot as plt
-from keras.layers import Dense, Embedding, SimpleRNN, CuDNNLSTM, CuDNNGRU
+from keras.layers import Dense, Embedding, SimpleRNN, CuDNNLSTM, CuDNNGRU, LSTM
 from keras import Sequential
 import numpy as np
 from keras.datasets import imdb
 from keras.preprocessing import sequence
 
+def calMaxLen(data):
+   max = 0
+   for i in range(len(data)):
+      if len(data[i]) > max:
+         max = len(data[i])
+   return max
+
 maxFeatures = 10000
-maxLen = 500
+maxLen = 600
 batchSize = 32
 
 print("loading...")
 (inputTrain, yTrain), (inputTest, yTest) = imdb.load_data(num_words=maxFeatures)
 
-print(inputTrain)
+maxLen = calMaxLen(inputTrain)
 
 inputTrain = sequence.pad_sequences(inputTrain, maxlen=maxLen)
 inputTest = sequence.pad_sequences(inputTest, maxlen=maxLen)
@@ -21,14 +28,19 @@ print(inputTrain)
 
 
 model = Sequential()
-model.add(Embedding(maxFeatures, 32))
-model.add(CuDNNGRU(32))
+model.add(Embedding(input_dim=maxFeatures,
+                    output_dim=32,
+                    input_length=maxLen))
+model.add(LSTM(32))
 model.add(Dense(1, activation="sigmoid"))
 
-model.compile(optimizer="rmsprop",
+model.compile(optimizer="adam",
               loss="binary_crossentropy",
               metrics=["acc"])
-history = model.fit(inputTrain, yTrain, epochs=5, batch_size=batchSize, validation_split=0.2)
+history = model.fit(inputTrain, yTrain,
+                    epochs=10,
+                    batch_size=batchSize,
+                    validation_split=0.2)
 
 
 acc = history.history['acc']

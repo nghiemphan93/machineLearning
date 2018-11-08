@@ -34,6 +34,7 @@ def to_one_hot(labels, dimension=46):
 
 (train_data, train_labels), (test_data, test_labels) = reuters.load_data(num_words=10000)
 
+'''
 word_index = reuters.get_word_index()
 reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
 # Note that our indices were offset by 3
@@ -50,6 +51,7 @@ x_test = vectorize_sequences(test_data)
 one_hot_train_labels = to_one_hot(train_labels)
 # Our vectorized test labels
 one_hot_test_labels = to_one_hot(test_labels)
+'''
 
 '''
 print(type(test_labels))
@@ -62,7 +64,7 @@ print(test_labels.shape)
 print(len(test_labels))
 '''
 
-
+'''
 model = models.Sequential()
 model.add(layers.Dense(256, activation='relu', input_shape=(10000,)))
 model.add(layers.Dense(256, activation='relu'))
@@ -116,7 +118,7 @@ results = model.evaluate(x_test, one_hot_test_labels)
 print(model.predict(x_test))
 print(results)
 
-
+'''
 '''
 one_hot_train_labels = to_categorical(train_labels)
 one_hot_test_labels = to_categorical(test_labels)

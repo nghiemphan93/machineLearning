@@ -3,6 +3,9 @@ from keras.datasets import imdb
 import numpy as np
 from keras import models
 from keras import layers
+from matplotlib import style
+style.use('fivethirtyeight')
+#np.set_printoptions(threshold=np.nan)
 
 def vectorize_sequences(sequences, dimension=10000):
     # Create an all-zero matrix of shape (len(sequences), dimension)
@@ -28,16 +31,11 @@ x_train = vectorize_sequences(train_data)
 # Our vectorized test data
 x_test = vectorize_sequences(test_data)
 
+print(train_data)
+print(x_train)
 print(train_data.shape)
-print(x_train.shape)
 
-print(train_data[0])
-print(x_train[0])
-print(len(train_data[0]))
-
-print("test label shape: ", test_labels.shape)
-
-
+'''
 # Our vectorized labels
 y_train = np.asarray(train_labels).astype('float32')
 y_test = np.asarray(test_labels).astype('float32')
@@ -74,7 +72,7 @@ loss        = historyDict["loss"]
 val_loss    = historyDict["val_loss"]
 epochs      = [i for i in range(1, len(acc)+1)]
 
-plt.plot(epochs, loss, color="k", label="Training Loss")
+plt.plot(epochs, loss, color="r", label="Training Loss")
 plt.plot(epochs, val_loss, color="b", label="Validation Loss")
 plt.title("Training and validation loss")
 plt.xlabel("Epochs")
@@ -97,5 +95,5 @@ plt.title('Training and validation accuracy')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
-
 plt.show()
+'''
