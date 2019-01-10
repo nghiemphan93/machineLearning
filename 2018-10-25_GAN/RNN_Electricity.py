@@ -34,7 +34,7 @@ def loadData():
    plt.show()
 
 
-trainPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/electricity/LD2011_2014.txt"
+trainPath = "C:/Users/phan/OneDrive - adesso Group/DataSet/electricity/LD2011_2014.txt"
 df = pd.read_csv(trainPath, delimiter=";",  decimal=",")
 df = df.rename(columns={"Unnamed: 0": "time"})
 df["time"] = pd.to_datetime(df["time"])

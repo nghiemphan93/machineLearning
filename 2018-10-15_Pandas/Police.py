@@ -9,10 +9,14 @@ style.use('fivethirtyeight')
 from pandas.core.frame import DataFrame
 
 
-df: DataFrame = pd.read_csv("./data/police.csv")
+df: DataFrame = pd.read_csv("./data/police.csv", nrows=100)
+df["rang"] = pd.Series(range(len(df)), index=df.index)
+
 df["stop_datetime"] = df.stop_date.str.cat(df.stop_time, " ")
 df["stop_datetime"] = pd.to_datetime(df["stop_datetime"])
-
+df.plot(x="stop_datetime", y="driver_age")
+plt.show()
+print(df)
 
 # Remove columns that only contains missing values
 '''
@@ -89,6 +93,8 @@ plt.show()
 '''
 
 # Find the bad data in the stop_duration column and fix it
+'''
 print(df.stop_duration.value_counts())
 df.loc[(df.stop_duration == "1") | (df.stop_duration == "2"), "stop_duration"] = np.nan
 print(df.stop_duration.value_counts())
+'''

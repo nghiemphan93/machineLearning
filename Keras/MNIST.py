@@ -6,7 +6,6 @@ from keras import models
 from keras import layers
 from keras.utils import to_categorical
 import tensorflow as tf
-sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 from keras.callbacks import TensorBoard
 from matplotlib import style
 style.use('fivethirtyeight')
