@@ -78,15 +78,7 @@ x = np.expand_dims(x, axis=2)
 '''
 
 # Test new
-x = []
-Y = []
-for i in range(LOOK_BACK, len(data) - PREDICT):
-   x.append(data[i - LOOK_BACK:i])
-   Y.append(data[i + PREDICT])
-x = np.asarray(x)
-Y = np.asarray(Y)
-x = np.reshape(x,
-               (x.shape[0], x.shape[1], 1))
+   
 
 print(x.shape)
 
