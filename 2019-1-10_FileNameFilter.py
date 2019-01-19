@@ -1,37 +1,20 @@
 import os, shutil
 
 oneDrive          = "C:/Users/phan/OneDrive - adesso Group/Course"
-oneDriveBooks  = "D:/OneDrive - adesso Group/Books"
+oneDriveBooks     = "D:/OneDrive - adesso Group/Books"
+sach              = "C:/Users/phan/Downloads/Sach"
 compressed        = "C:/Users/phan/Downloads/Compressed"
-folder            = oneDriveBooks
+newFolder         = "C:/Users/phan/Downloads/New folder"
+folder            = sach
 
+
+# remove "something" in the filename
 fileNames = os.listdir(folder)
-
 for fileName in fileNames:
-   # Clear the "." in file name && ignore file types
-   '''
-   fileTypes = [".pdf", ".azw3", ".epub", ".mobi"]
-   filePath = os.path.join(folder, fileName)
-
-   if "." in fileName:
-      for fileType in fileTypes:
-         if fileType in fileName:
-            newFileName = fileName[:-len(fileType)]
-            newFileName = newFileName.replace(".", " ")
-            newFileName = newFileName + fileType
-            newFilePath = os.path.join(folder, newFileName)
-
-            if os.path.exists(newFilePath):
-               print(newFilePath)
-            else:
-               os.rename(filePath, newFilePath)
-   '''
-
-   # remove "something" in the filename
-   '''
    filePath = os.path.join(folder, fileName)
    toRemoveList = ["OReilly.", "Apress.", "CreateSpace.", "Manning.", "No.Starch.Press.Malware.", "Packt.",
-                   "The.MIT.Press.", "Wiley.", "Martin.Hagan.", "[Bookflare.net] - "]
+                   "The.MIT.Press.", "Wiley.", "Martin.Hagan.", "[Bookflare.net] - ", "The.MIT.Press.",
+                   "Sachvui.Com-"]
    for toRemove in toRemoveList:
       if toRemove in fileName:
          newFileName = fileName.replace(toRemove, "")
@@ -40,11 +23,31 @@ for fileName in fileNames:
             print(newFilePath)
          else:
             os.rename(filePath, newFilePath)
-   '''
 
-   # Change to upper case && ignore file types
+fileNames = os.listdir(folder)
+# Clear the "." and "-" in file name && ignore file types
+for fileName in fileNames:
+   fileTypes = [".pdf", ".azw3", ".epub", ".mobi", ".prc"]
+   filePath = os.path.join(folder, fileName)
 
-   fileTypes = [".pdf", ".azw3", ".epub", ".mobi"]
+   if "." in fileName:
+      for fileType in fileTypes:
+         if fileType in fileName:
+            newFileName = fileName[:-len(fileType)]
+            newFileName = newFileName.replace(".", " ")
+            newFileName = newFileName.replace("-", " ")
+            newFileName = newFileName + fileType
+            newFilePath = os.path.join(folder, newFileName)
+
+            if os.path.exists(newFilePath):
+               print(newFilePath)
+            else:
+               os.rename(filePath, newFilePath)
+
+fileNames = os.listdir(folder)
+# Change to upper case && ignore file types
+for fileName in fileNames:
+   fileTypes = [".pdf", ".azw3", ".epub", ".mobi", ".prc"]
    filePath = os.path.join(folder, fileName)
 
    for fileType in fileTypes:
@@ -54,8 +57,3 @@ for fileName in fileNames:
          upperFilePath = os.path.join(folder, upperFileName)
 
          os.rename(filePath, upperFilePath)
-
-
-
-
-

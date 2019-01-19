@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('fivethirtyeight')
 
-dataName = "dragon"
+dataName = "apple"
 dataPath = "D:/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
 data = np.load(dataPath)
 

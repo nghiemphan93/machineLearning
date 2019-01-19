@@ -14,9 +14,11 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('fivethirtyeight')
 
-dataName = "dragon"
-dataPath = "D:/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
-data = np.load(dataPath)
+dataName    = "apple"
+dataLaptop  = "C:/Users/phan/OneDrive - adesso Group/DataSet/"
+dataPC      = "D:/OneDrive - adesso Group/DataSet/"
+dataPath    = dataLaptop + dataName + ".npy"
+data        = np.load(dataPath)
 
 data = data/255
 data = np.reshape(data, (data.shape[0], 28, 28, 1))
@@ -227,7 +229,7 @@ def train(epochs=100, batch=100):
          '''
    return adverMetrics, discMetrics
 
-a_metrics_complete, d_metrics_complete = train(epochs=15000)
+a_metrics_complete, d_metrics_complete = train(epochs=1000)
 ax = pd.DataFrame(
     {
         'Generator': [metric[0] for metric in a_metrics_complete],
