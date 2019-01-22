@@ -4,8 +4,9 @@ oneDrive          = "C:/Users/phan/OneDrive - adesso Group/Course"
 oneDriveBooks     = "D:/OneDrive - adesso Group/Books"
 sach              = "C:/Users/phan/Downloads/Sach"
 compressed        = "C:/Users/phan/Downloads/Compressed"
+books             = "C:/Users/Phan/Downloads/books"
 newFolder         = "C:/Users/phan/Downloads/New folder"
-folder            = sach
+folder            = books
 
 
 # remove "something" in the filename
@@ -14,7 +15,7 @@ for fileName in fileNames:
    filePath = os.path.join(folder, fileName)
    toRemoveList = ["OReilly.", "Apress.", "CreateSpace.", "Manning.", "No.Starch.Press.Malware.", "Packt.",
                    "The.MIT.Press.", "Wiley.", "Martin.Hagan.", "[Bookflare.net] - ", "The.MIT.Press.",
-                   "Sachvui.Com-"]
+                   "Sachvui.Com-", "[smtebooks.eu] ", "Bản sao của ", "[smtebooks.eu] "]
    for toRemove in toRemoveList:
       if toRemove in fileName:
          newFileName = fileName.replace(toRemove, "")

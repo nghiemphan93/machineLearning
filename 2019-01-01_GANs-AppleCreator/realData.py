@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('fivethirtyeight')
 
-dataName = "apple"
+dataName = "eye"
 dataPath = "D:/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
 data = np.load(dataPath)
 
@@ -20,7 +20,7 @@ data = data/255
 data = np.reshape(data, (data.shape[0], 28, 28, 1))
 imgWidth, imgHeight = data.shape[1:3]
 
-OFFSET = 200
+OFFSET = 500
 
 for index in range(10):
    plt.figure(figsize=(5, 5))
