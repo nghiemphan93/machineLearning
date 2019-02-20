@@ -12,19 +12,29 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('fivethirtyeight')
 
+<<<<<<< HEAD
 dataName       = "dragon"
 dataPathLaptop = "C:/Users/phan/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
 dataPath       = "D:/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
 data = np.load(dataPathLaptop)
+=======
+dataName = "eye"
+dataPath = "D:/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
+data = np.load(dataPath)
+>>>>>>> master
 
 data = data/255
 data = np.reshape(data, (data.shape[0], 28, 28, 1))
 imgWidth, imgHeight = data.shape[1:3]
 
+<<<<<<< HEAD
 print(data.shape)
 
 '''
 OFFSET = 200
+=======
+OFFSET = 500
+>>>>>>> master
 
 for index in range(10):
    plt.figure(figsize=(5, 5))

@@ -12,12 +12,12 @@ import math
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import style
-style.use('fivethirtyeight')
+#style.use('fivethirtyeight')
 
-dataName    = "apple"
+dataName    = "dragon"
 dataLaptop  = "C:/Users/phan/OneDrive - adesso Group/DataSet/"
 dataPC      = "D:/OneDrive - adesso Group/DataSet/"
-dataPath    = dataLaptop + dataName + ".npy"
+dataPath    = dataPC + dataName + ".npy"
 data        = np.load(dataPath)
 
 data = data/255
@@ -195,6 +195,9 @@ def train(epochs=100, batch=100):
 
       noise = np.random.uniform(-1.0, 1.0, size=[batch, 100])
       y = np.ones([batch, 1])
+      y[:, :] = 1
+
+
 
       adverMetrics.append(adversarialModel.train_on_batch(noise, y))
       runningAdverLoss += adverMetrics[-1][0]
@@ -217,7 +220,7 @@ def train(epochs=100, batch=100):
             plt.axis("off")
          plt.tight_layout()
          fileName = dataName + "-" + "epoch-" + str(i) + ".png"
-         plt.savefig(fname=fileName)
+         # plt.savefig(fname=fileName)
          plt.show()
 
 
@@ -229,7 +232,7 @@ def train(epochs=100, batch=100):
          '''
    return adverMetrics, discMetrics
 
-a_metrics_complete, d_metrics_complete = train(epochs=1000)
+a_metrics_complete, d_metrics_complete = train(epochs=15000)
 ax = pd.DataFrame(
     {
         'Generator': [metric[0] for metric in a_metrics_complete],
