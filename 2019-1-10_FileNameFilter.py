@@ -14,7 +14,9 @@ for fileName in fileNames:
    filePath = os.path.join(folder, fileName)
    toRemoveList = ["OReilly.", "Apress.", "CreateSpace.", "Manning.", "No.Starch.Press.Malware.", "Packt.",
                    "The.MIT.Press.", "Wiley.", "Martin.Hagan.", "[Bookflare.net] - ", "The.MIT.Press.",
-                   "Sachvui.Com-"]
+                   "Sachvui.Com-", "Packtpub - ", "Udemy - ", "[OREILLY] ", "[UdemyCourseDownloader] ", "_freetuts.download",
+                   "[UDEMY] ", " - [FTU]", "[PEARSON] ", "[InFormIt] ", "[PACKT] ", "_[FREETUTS DOWNLOAD]", " - [FCO]", "[UDEMY] ", "_[freetuts.download]",
+                   "_p30download.com", "Udemy.", "Pluralsight."]
    for toRemove in toRemoveList:
       if toRemove in fileName:
          newFileName = fileName.replace(toRemove, "")
@@ -50,10 +52,18 @@ for fileName in fileNames:
    fileTypes = [".pdf", ".azw3", ".epub", ".mobi", ".prc"]
    filePath = os.path.join(folder, fileName)
 
-   for fileType in fileTypes:
-      if fileType in fileName:
-         upperFileName = fileName[:-len(fileType)].upper()
-         upperFileName = upperFileName + fileType
-         upperFilePath = os.path.join(folder, upperFileName)
+   if os.path.isdir(filePath):
+      lowerFolderName = fileName
+      lowerFolderPath = os.path.join(folder, lowerFolderName)
+      upperFolderName = lowerFolderName.upper()
+      upperFolderName = upperFolderName.replace(".", " ")
+      upperFolderPath = os.path.join(folder, upperFolderName)
+      os.rename(lowerFolderPath, upperFolderPath)
+   else:
+      for fileType in fileTypes:
+         if fileType in fileName:
+            upperFileName = fileName[:-len(fileType)].upper()
+            upperFileName = upperFileName + fileType
+            upperFilePath = os.path.join(folder, upperFileName)
 
-         os.rename(filePath, upperFilePath)
+            os.rename(filePath, upperFilePath)

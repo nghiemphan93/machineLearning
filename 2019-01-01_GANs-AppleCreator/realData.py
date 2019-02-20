@@ -12,14 +12,18 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('fivethirtyeight')
 
-dataName = "apple"
-dataPath = "D:/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
-data = np.load(dataPath)
+dataName       = "dragon"
+dataPathLaptop = "C:/Users/phan/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
+dataPath       = "D:/OneDrive - adesso Group/DataSet/" + dataName + ".npy"
+data = np.load(dataPathLaptop)
 
 data = data/255
 data = np.reshape(data, (data.shape[0], 28, 28, 1))
 imgWidth, imgHeight = data.shape[1:3]
 
+print(data.shape)
+
+'''
 OFFSET = 200
 
 for index in range(10):
@@ -32,3 +36,4 @@ for index in range(10):
    fileName = dataName + "-truth-" + str(index) + ".png"
    plt.savefig(fname=fileName)
    plt.show()
+'''
