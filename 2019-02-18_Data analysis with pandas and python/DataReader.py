@@ -1,3 +1,4 @@
+# region Import
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -7,9 +8,13 @@ from matplotlib import style
 style.use('fivethirtyeight')
 from pandas.core.frame import DataFrame
 from pandas import Series, DataFrame
+import datetime as dt
+from pandas_datareader import data
+# endregion
 
-df = pd.read_csv("./data/bigmac.csv", parse_dates=["Date"], index_col=["Date", "Country"])
-#df = df.set_index(keys=["Date", "Country"])
-df = df.sort_index(ascending=[True, False])
+company="MSFT"
+start = "2016-01-01"
+end = "2019-12-31"
 
-print(df.loc[("2010-01-01", "Ukraine")])
+df = data.DataReader(name=company, data_source="iex",start=start, end=end)
+print(df.iloc[200:300])

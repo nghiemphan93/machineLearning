@@ -8,8 +8,6 @@ style.use('fivethirtyeight')
 from pandas.core.frame import DataFrame
 from pandas import Series, DataFrame
 
-df = pd.read_csv("./data/bigmac.csv", parse_dates=["Date"], index_col=["Date", "Country"])
-#df = df.set_index(keys=["Date", "Country"])
-df = df.sort_index(ascending=[True, False])
+df = pd.read_csv("./data/worldstats.csv", index_col=["country", "year"])
 
-print(df.loc[("2010-01-01", "Ukraine")])
+print(df)
