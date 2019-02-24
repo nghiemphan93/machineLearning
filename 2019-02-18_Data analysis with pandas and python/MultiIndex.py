@@ -12,4 +12,4 @@ df = pd.read_csv("./data/bigmac.csv", parse_dates=["Date"], index_col=["Date", "
 #df = df.set_index(keys=["Date", "Country"])
 df = df.sort_index(ascending=[True, False])
 
-print(df.loc[("2010-01-01", "Ukraine")])
+print(df)
