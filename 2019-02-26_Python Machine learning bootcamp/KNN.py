@@ -10,7 +10,8 @@ from sklearn.neighbors import KNeighborsClassifier
 import sklearn.metrics as metrics
 from sklearn.preprocessing import Normalizer, StandardScaler
 
-df = pd.read_csv("./data/Classified Data", index_col=0)
+df: pd.DataFrame = pd.read_csv("./data/Classified Data", index_col=0)
+df.
 scaler = StandardScaler()
 scaler.fit(df.drop("TARGET CLASS", axis=1))
 scaledFeatures = scaler.transform(df.drop("TARGET CLASS", axis=1))
@@ -25,3 +26,20 @@ knn.fit(xTrain, yTrain)
 yPredict = knn.predict(xTest)
 
 print(metrics.accuracy_score(yPredict, yTest))
+
+
+
+x = 10
+print(x)
+
+
+
+
+
+
+
+
+
+
+
+

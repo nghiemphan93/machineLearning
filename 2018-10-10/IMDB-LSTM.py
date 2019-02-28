@@ -28,8 +28,8 @@ np.savez("labels.npz", labels=labels)
 np.savez("texts.npz", texts=texts)
 '''
 
-labels = np.load("C:/Users/Phan/OneDrive - adesso Group/DataSet/labels.npz")["labels"]
-texts = np.load("C:/Users/Phan/OneDrive - adesso Group/DataSet/texts.npz")["texts"]
+labels = np.load("D:/OneDrive - adesso Group/DataSet/labels.npz")["labels"]
+texts = np.load("D:/OneDrive - adesso Group/DataSet/texts.npz")["texts"]
 
 maxlen            = 600    # takes first 600 words
 trainningSamples  = 10000    # train on 10000 samples
@@ -41,15 +41,11 @@ tokenizer.fit_on_texts(texts)
 #print("text[3]: {}\n".format(texts[3]))
 sequences = tokenizer.texts_to_sequences(texts)
 wordIndex = tokenizer.word_index
-print("sequences[3]: {}\n".format(sequences[3]))
-#print("wordindex: {}\n".format(wordIndex))
 data = pad_sequences(sequences, maxlen=maxlen)
 listwords = [wordIndex.get(word) for word in sequences[3]]
-print(type(wordIndex))
-print("data[3]: {}\n".format(data[3]))
 labels = np.asarray(labels)
 
-'''
+
 # Shuffle data and labels
 indices = np.arange(data.shape[0])
 np.random.shuffle(indices)
@@ -64,7 +60,7 @@ validLabel  = labels[trainningSamples: trainningSamples + validationSamples]
 
 
 # Process embedding
-gloveFolder = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/glove6b"
+gloveFolder = "D:/OneDrive - adesso Group/DataSet/glove6b"
 gloveFile = "glove.6B.100d.txt"
 
 embeddingIndex = {}
@@ -119,4 +115,3 @@ plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
 plt.legend()
 plt.show()
-'''
