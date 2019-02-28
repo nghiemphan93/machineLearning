@@ -6,9 +6,9 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Embedding, LSTM, CuDNNLSTM
 import matplotlib.pyplot as plt
 
-trainPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/imdb/train"
-testPath = "C:/Users/Nghiem Phan/OneDrive - adesso Group/DataSet/imdb/test"
-
+trainPath = "C:/Users/Phan/OneDrive - adesso Group/DataSet/imdb/train"
+testPath = "C:/Users/Phan/OneDrive - adesso Group/DataSet/imdb/test"
+'''
 labels   = []
 texts    = []
 
@@ -24,6 +24,13 @@ for labelType in ["neg", "pos"]:
          else:
             labels.append(1)
 
+np.savez("labels.npz", labels=labels)
+np.savez("texts.npz", texts=texts)
+'''
+
+labels = np.load("C:/Users/Phan/OneDrive - adesso Group/DataSet/labels.npz")["labels"]
+texts = np.load("C:/Users/Phan/OneDrive - adesso Group/DataSet/texts.npz")["texts"]
+
 maxlen            = 600    # takes first 600 words
 trainningSamples  = 10000    # train on 10000 samples
 validationSamples = 2000  # validate on 2000 samples
@@ -31,13 +38,18 @@ maxWords          = 10000  # consider top 10000 words in dataset
 
 tokenizer = Tokenizer(num_words=maxWords)
 tokenizer.fit_on_texts(texts)
+#print("text[3]: {}\n".format(texts[3]))
 sequences = tokenizer.texts_to_sequences(texts)
 wordIndex = tokenizer.word_index
-
+print("sequences[3]: {}\n".format(sequences[3]))
+#print("wordindex: {}\n".format(wordIndex))
 data = pad_sequences(sequences, maxlen=maxlen)
-
+listwords = [wordIndex.get(word) for word in sequences[3]]
+print(type(wordIndex))
+print("data[3]: {}\n".format(data[3]))
 labels = np.asarray(labels)
 
+'''
 # Shuffle data and labels
 indices = np.arange(data.shape[0])
 np.random.shuffle(indices)
@@ -107,3 +119,4 @@ plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
 plt.legend()
 plt.show()
+'''

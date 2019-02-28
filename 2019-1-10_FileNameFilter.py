@@ -19,7 +19,7 @@ for fileName in fileNames:
                    "[UDEMY] ", " - [FTU]", "[PEARSON] ", "[InFormIt] ", "[PACKT] ", "_[FREETUTS DOWNLOAD]", " - [FCO]", "[UDEMY] ", "_[freetuts.download]",
                    "_p30download.com", "Udemy.", "Pluralsight.",
                    "Sachvui.Com-", "[smtebooks.eu] ", "Bản sao của ", "[smtebooks.eu] ", "[FrondendMasters]", " [FCO]",
-                   "[downloadsach.com] "]
+                   "[downloadsach.com] ", "_freetuts.download_ - ", " [redpillbay]", "[freetuts.download] - ", "[freetuts.download] - "]
 
    for toRemove in toRemoveList:
       if toRemove in fileName:
