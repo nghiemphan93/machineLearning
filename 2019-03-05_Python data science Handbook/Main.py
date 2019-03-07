@@ -6,6 +6,10 @@ import seaborn as sns
 sns.set()
 #plt.style.use("fivethirtyeight")
 pd.set_option('display.expand_frame_repr', False)
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_digits
+from sklearn.datasets import make_moons
+from sklearn.cluster import SpectralClustering
 # endregion
 
 '''
@@ -78,8 +82,40 @@ g = sns.jointplot(x="total_bill", y="tip", data=df, kind="reg")
 g.set_axis_labels(xlabel="Total Bill", ylabel="Tips")
 plt.show()
 '''
-
+'''
 planets = sns.load_dataset("planets")
 print(planets)
 sns.catplot(x="year", data=planets, kind="count", aspect=2, color="steelblue", hue="method")
+plt.show()
+'''
+'''
+df = sns.load_dataset("iris")
+model = PCA(n_components=2)
+df2D = model.fit_transform(df.drop("species", axis=1))
+df["PCA1"] = df2D[:, 0]
+df["PCA2"] = df2D[:, 1]
+print(df)
+#sns.scatterplot(x="PCA1", y="PCA2", data=df, hue="species")
+sns.lmplot(x="PCA1", y="PCA2", data=df, hue="species", fit_reg=False)
+plt.show()
+'''
+'''
+digits = load_digits()
+df = pd.DataFrame(data=digits.data)
+df["target"] = digits.target
+
+pca = PCA(n_components=2)
+digits2D = pca.fit_transform(X=digits.data)
+df["PCA1"] = digits2D[:, 0]
+df["PCA2"] = digits2D[:, 1]
+sns.lmplot(x="PCA1", y="PCA2", data=df, hue="target", fit_reg=False)
+plt.show()
+'''
+
+X, y = make_moons(200, noise=0.05, random_state=0)
+model = SpectralClustering(n_clusters=2,
+                           affinity="nearest_neighbors",
+                           assign_labels="kmeans")
+yPredicted = model.fit_predict(X)
+plt.scatter(x=X[:, 0], y=X[:, 1], c=yPredicted)
 plt.show()
