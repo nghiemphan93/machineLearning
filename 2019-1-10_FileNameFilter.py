@@ -6,7 +6,7 @@ sach              = "C:/Users/phan/Downloads/Sach"
 compressed        = "C:/Users/phan/Downloads/Compressed"
 books             = "C:/Users/Phan/Downloads/books"
 newFolder         = "C:/Users/phan/Downloads/New folder"
-folder            = books
+folder            = sach
 
 
 # remove "something" in the filename
