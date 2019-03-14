@@ -52,7 +52,7 @@ f: plt.Figure = plt.figure()
 figName = "Stundenverteilung der Ergebnisse"
 g = sns.FacetGrid(data=tourOneYear, row="ergebnis", aspect=4, sharey=False, hue="fixtermin")
 g.map(sns.countplot, "hour")
-g.set_xlabels("Stunden")
+g.set_xlabels("Uhrzeit")
 g.set_ylabels("Anzahl")
 g.add_legend()
 plt.show()
