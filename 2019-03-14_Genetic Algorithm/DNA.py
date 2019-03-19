@@ -13,19 +13,23 @@ class DNA:
    def calcFitness(self, target: str) -> float:
       score = 0
       for i in range(len(self.genes)):
-         if (self.genes[i] == target[i]):
+         if self.genes[i] == target[i]:
             score += 1
       self.fitness = float(score) / len(target)
+      #self.fitness = float(score)
 
    def crossover(self, partner):
-      child = DNA(len(self.genes))
-      midPoint = random.randint(len(self.genes))
+      child = DNA("".join(self.genes))
+      # print("child 1: ", child.getPhrase())
+      midPoint = random.randint(0, len(self.genes) - 1)
+      #print(midPoint)
 
       for i in range(len(self.genes)):
          if i > midPoint:
             child.genes[i] = self.genes[i]
          else:
             child.genes[i] = partner.genes[i]
+      # print("child 2: ", child.getPhrase())
       return child
 
    def mutate(self, mutaRate: float) -> None:

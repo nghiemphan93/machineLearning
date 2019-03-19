@@ -2,16 +2,25 @@ import random
 from DNA import DNA
 from Population import Population
 
+# Setup
+target = "unicorn"
+populationSize = 200
+mutationRate = 0.1
+population = Population(target=target,
+                        mutationRate=mutationRate,
+                        populationSize=populationSize)
 
-
-
-population = Population(target="cai lon",
-                        mutationRate=0.01 ,
-                        populationSize=10)
-print(population.calcAverageFitness())
+# Run genetic algorithm
+while population.isFinished == False:
+   population.naturalSelect()
+   population.newGeneration()
+   population.calcFitnessAllMembers()
+   print(population.getBestDNA().getPhrase(), " ", population.calcAverageFitness())
+   #print(len(population.matingPool))
 
 '''
-target = "cai lon"
-for i in range(3):
-   print(DNA(target).getPhrase())
+characters = []
+for i in range(32, 129):
+   characters.append(chr(i))
+print(characters)
 '''

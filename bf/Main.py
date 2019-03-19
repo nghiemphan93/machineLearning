@@ -10,8 +10,8 @@ pd.set_option('display.expand_frame_repr', False)
 
 
 # region Import Data
-sales    = "C:/Users/phan/OneDrive - adesso Group/bofrost/SalesRandomAnonym.csv"
-tour     = "C:/Users/phan/OneDrive - adesso Group/bofrost/TourenDaten_Anonimisiert.csv"
+sales    = "SalesRandomAnonym.csv"
+tour     = "TourenDaten_Anonimisiert.csv"
 sales    = pd.read_csv(sales, parse_dates=["DAT"])
 tour     = pd.read_csv(tour, parse_dates=["tw_dtm", "bearbeitungszeitpunkt"])
 # endregion
