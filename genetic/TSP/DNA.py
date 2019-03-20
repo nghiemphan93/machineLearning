@@ -86,10 +86,19 @@ class DNA:
    #          self.route[i] = self.route[i + 1]
    #          self.route[i + 1] = tempCity
 
+   # def mutate(self, mutationRate: float):
+   #    for i in range(1, len(self.route) - 2):
+   #       randomRate = random.random()
+   #       if randomRate <= mutationRate:
+   #          tempCity = self.route[i]
+   #          self.route[i] = self.route[i + 1]
+   #          self.route[i + 1] = tempCity
    def mutate(self, mutationRate: float):
-      for i in range(1, len(self.route) - 2):
+      for i in range(len(self.route)):
          randomRate = random.random()
          if randomRate <= mutationRate:
-            tempCity = self.route[i]
-            self.route[i] = self.route[i + 1]
-            self.route[i + 1] = tempCity
+            indexA = random.randint(1, len(self.route) - 1)
+            indexB = random.randint(1, len(self.route) - 1)
+            tempCity = self.route[indexA]
+            self.route[indexA] = self.route[indexB]
+            self.route[indexB] = tempCity

@@ -18,12 +18,12 @@ class Population:
       self.calcFitness()
 
    def createRoute(self, numbCities: int) -> List[City]:
-      # cityRoute = []
-      # for i in range(numbCities):
-      #    cityRoute.append(City(x=random.randint(0, 500),
-      #                          y=random.randint(0, 500)))
-      cityRoute = [City(199, 263), City(218, 172), City(225, 398), City(127, 242), City(318, 286),
-          City(432, 197), City(388, 455), City(215, 20), City(132, 494), City(261, 248)]
+      cityRoute = []
+      for i in range(numbCities):
+         cityRoute.append(City(x=random.randint(50, 700),
+                               y=random.randint(50, 700)))
+      # cityRoute = [City(199, 263), City(218, 172), City(225, 398), City(127, 242), City(318, 286),
+      #     City(432, 197), City(388, 455), City(215, 20), City(132, 494), City(261, 248)]
       return cityRoute
 
    def createPopulation(self, populationSize) -> List[DNA]:

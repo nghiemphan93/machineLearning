@@ -1,3 +1,4 @@
+from tkinter import *
 import random
 from random import Random
 from genetic.TSP.City import City
@@ -73,10 +74,10 @@ while population.isFinished() == False:
 '''
 
 # route = [City(432, 197), City(388, 455), City(215, 20), City(132, 494), City(261, 248)]
-numbCities = 10
-mutationRate = 0.05
+numbCities = 15
+mutationRate = 0.5
 populationSize = 200
-eliteRate = 0.1
+eliteRate = 0.01
 population = Population(numbCities, mutationRate, populationSize, eliteRate)
 
 # route = Helper.createRoute(10)
@@ -96,7 +97,7 @@ dna.route = route3
 # population.calcFitness()
 # population.calcDistance()
 
-
+'''
 counter = 0
 while counter <= 20:
    population.naturalSelection()
@@ -106,6 +107,47 @@ while counter <= 20:
    population.evaluate()
    print(counter, " ", population.bestDNA.distance, " ", population.bestDNA)
    counter += 1
+'''
+counter = 0
+def animation():
+   global counter
+   canvas.delete("all")
+   # route4 = [City(199, 263), City(218, 172), City(225, 398), City(127, 242), City(318, 286),
+   #           City(432, 197), City(388, 455), City(215, 20), City(132, 494), City(261, 248)]
+
+   population.naturalSelection()
+   population.generate()
+   population.calcFitness()
+   population.calcDistance()
+   population.evaluate()
+
+   r = 10
+   for i in range(len(population.cityList)):
+      canvas.create_oval(population.cityList[i].x - r,
+                         population.cityList[i].y - r,
+                         population.cityList[i].x + r,
+                         population.cityList[i].y + r)
+   for i in range(len(population.bestDNA.route)-1):
+      canvas.create_line(population.bestDNA.route[i].x,
+                         population.bestDNA.route[i].y,
+                         population.bestDNA.route[i+1].x,
+                         population.bestDNA.route[i+1].y)
+   print(counter, " ", population.bestDNA.distance, " ", population.bestDNA)
+   counter += 1
+
+   # for i in range(len(route4)):
+   #    canvas.create_oval(route4[i].x - r,
+   #                       route4[i].y - r,
+   #                       route4[i].x + r,
+   #                       route4[i].y + r)
+   canvas.after(int(1000/60), animation)
+
+
+root = Tk()
+canvas = Canvas(root, height=750, width=750)
+canvas.pack()
+animation()
+root.mainloop()
 
 # print(route)
 # print(dna)
