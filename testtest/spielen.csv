@@ -1,0 +1,15 @@
+vorhersage temperatur feuchtigkeit windigkeit spielen
+Sonnig Heiss Hoch false Nein
+Sonnig Heiss Hoch true Nein
+Wechselhaft Heiss Hoch false Ja
+Regen Mild Hoch false Ja
+Regen Kalt Normal false Ja
+Regen Kalt Normal true Nein
+Wechselhaft Kalt Normal true Ja
+Sonnig Mild Hoch false Nein
+Sonnig Kalt Normal false Ja
+Regen Mild Normal false Ja
+Sonnig Mild Normal true Ja
+Wechselhaft Mild Hoch true Ja
+Wechselhaft Heiss Normal false Ja
+Regen Mild Hoch true Nein
