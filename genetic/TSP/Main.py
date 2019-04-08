@@ -75,7 +75,7 @@ while population.isFinished() == False:
 
 # route = [City(432, 197), City(388, 455), City(215, 20), City(132, 494), City(261, 248)]
 numbCities = 15
-mutationRate = 0.5
+mutationRate = 0.7
 populationSize = 200
 eliteRate = 0.01
 population = Population(numbCities, mutationRate, populationSize, eliteRate)
