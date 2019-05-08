@@ -309,7 +309,8 @@ def startTraining() -> None:
    model       = defineModel(xTrain=trainImages, yTrain=trainOutlines)
 
    predicted   = model.predict(testImages)
-   savePredictedImages(predicted, testImages)
+   savePredictedImages(predicted=predicted,
+                       testImages=testImages)
 
 
 if __name__ == '__main__':
