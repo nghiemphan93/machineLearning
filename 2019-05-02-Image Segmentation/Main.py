@@ -107,8 +107,8 @@ def readTrainImageAndOutline(imagePath: str, outlinePath: str) -> Tuple[np.ndarr
    """
    imageString    = tf.read_file(imagePath)
    outlineString  = tf.read_file(outlinePath)
-   image          = tf.image.decode_image(imageString, channels=3)
-   outline        = tf.image.decode_image(outlineString, channels=1)
+   image          = tf.image.decode_image(contents=imageString, channels=3)
+   outline        = tf.image.decode_image(contents=outlineString, channels=1)
 
    # Resize down to 224 x 224
    image    = tf.image.resize_image_with_pad(image=image,
@@ -127,7 +127,7 @@ def readTrainImageAndOutline(imagePath: str, outlinePath: str) -> Tuple[np.ndarr
    return image, outline
 
 
-def readTestImage(testImagePath) -> np.ndarray:
+def readTestImage(testImagePath: str) -> np.ndarray:
    """
    Read a test image from path and save to ndarray
 
@@ -135,7 +135,7 @@ def readTestImage(testImagePath) -> np.ndarray:
    :return: image
    """
    imageString = tf.read_file(testImagePath)
-   image       = tf.image.decode_image(imageString, channels=3)
+   image       = tf.image.decode_image(contents=imageString, channels=3)
    # Resize down to 224 x 224
    image       = tf.image.resize_image_with_pad(image=image,
                                           target_height=224,
@@ -161,11 +161,12 @@ def saveTrainData(trainImagePaths: List[str], trainOutlinePaths: List[str]) -> N
    trainOutlines  = np.ndarray(shape=(numbImages, 224, 224, 1))
 
    for i in range(numbImages):
-      trainImages[i], trainOutlines[i] = readTrainImageAndOutline(trainImagePaths[i], trainOutlinePaths[i])
+      trainImages[i], trainOutlines[i] = readTrainImageAndOutline(imagePath=trainImagePaths[i],
+                                                                  outlinePath=trainOutlinePaths[i])
 
-   with open('./trainImages.pickle', 'wb') as wf:
+   with open(file='./trainImages.pickle', mode='wb') as wf:
       pickle.dump(trainImages, wf)
-   with open('./trainOutlines.pickle', 'wb') as wf:
+   with open(file='./trainOutlines.pickle', mode='wb') as wf:
       pickle.dump(trainOutlines, wf)
 
 
@@ -176,9 +177,9 @@ def loadTrainData() -> Tuple[np.ndarray, np.ndarray]:
    :return: trainImages, trainOutlines
    """
    print(f'loading train data...')
-   with open('./trainImages.pickle', 'rb') as rf:
+   with open(file='./trainImages.pickle', mode='rb') as rf:
       trainImages = pickle.load(rf)
-   with open('./trainOutlines.pickle', 'rb') as rf:
+   with open(file='./trainOutlines.pickle', mode='rb') as rf:
       trainOutlines = pickle.load(rf)
    return trainImages, trainOutlines
 
@@ -195,8 +196,8 @@ def saveTestData(testImagePaths: List[str]) -> None:
    testImages = np.ndarray(shape=(numbImages, 224, 224, 3))
 
    for i in range(numbImages):
-      testImages[i] = readTestImage(testImagePaths[i])
-   with open('./testImages.pickle', 'wb') as wf:
+      testImages[i] = readTestImage(testImagePath=testImagePaths[i])
+   with open(file='./testImages.pickle', mode='wb') as wf:
       pickle.dump(testImages, wf)
 
 
@@ -207,7 +208,7 @@ def loadTestData() -> np.ndarray:
    :return: testImages
    """
    print(f'loading test data')
-   with open('./testImages.pickle', 'rb') as rf:
+   with open(file='./testImages.pickle', mode='rb') as rf:
       testImages: np.ndarray = pickle.load(rf)
    return testImages
 
@@ -225,27 +226,33 @@ def defineModel(xTrain: np.ndarray, yTrain: np.ndarray) -> tf.keras.models.Seque
    autoencoder = tf.keras.models.Sequential()
 
    # Encoder Layers
-   autoencoder.add(tf.keras.layers.Conv2D(FILTER_DIM * 2, (2, 2),
+   autoencoder.add(tf.keras.layers.Conv2D(filters=FILTER_DIM * 2,
+                                          kernel_size=(2, 2),
                                           activation='relu',
                                           padding='same',
                                           input_shape=xTrain.shape[1:]))
-   autoencoder.add(tf.keras.layers.MaxPooling2D((2, 2),
+   autoencoder.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2),
                                                 padding='same'))
 
    # Flatten encoding for visualization
    autoencoder.add(tf.keras.layers.Flatten())
-   autoencoder.add(tf.keras.layers.Reshape((112, 112, FILTER_DIM * 2)))
+   autoencoder.add(tf.keras.layers.Reshape(target_shape=(112, 112, FILTER_DIM * 2)))
 
    # Decoder Layers
-   autoencoder.add(tf.keras.layers.Conv2D(FILTER_DIM * 2, (2, 2),
+   autoencoder.add(tf.keras.layers.Conv2D(filters=FILTER_DIM * 2,
+                                          kernel_size=(2, 2),
                                           activation='relu',
                                           padding='same'))
-   autoencoder.add(tf.keras.layers.UpSampling2D((2, 2)))
+   autoencoder.add(tf.keras.layers.UpSampling2D(size=(2, 2)))
 
-   autoencoder.add(tf.keras.layers.Conv2D(1, (2, 2), activation='sigmoid', padding='same'))
+   autoencoder.add(tf.keras.layers.Conv2D(filters=1,
+                                          kernel_size=(2, 2),
+                                          activation='sigmoid',
+                                          padding='same'))
    autoencoder.summary()
 
-   autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
+   autoencoder.compile(optimizer='adam',
+                       loss='binary_crossentropy')
    autoencoder.fit(xTrain, yTrain,
                    epochs=10,
                    batch_size=4)
@@ -257,30 +264,24 @@ def preprocessData() -> None:
    Preprocess data before training
    :return: None
    """
+
    print(f'preprocessing data...')
    downloadFiles()
    tf.enable_eager_execution()
 
    trainPaths, outlinesPaths, testPaths = getImagePaths()
-   saveTrainData(trainPaths, outlinesPaths)
-   saveTestData(testPaths)
+   saveTrainData(trainImagePaths=trainPaths,
+                 trainOutlinePaths=outlinesPaths)
+   saveTestData(testImagePaths=testPaths)
 
 
-def startTraining() -> None:
+def savePredictedImages(predicted: np.ndarray, testImages: np.ndarray) -> None:
    """
-   Action
+   Save predicted images to compare with test images
 
    :return: None
    """
-   preprocessData()
-   trainImages, trainOutlines = loadTrainData()
-   testImages  = loadTestData()
 
-   model       = defineModel(trainImages, trainOutlines)
-
-   predicted   = model.predict(testImages)
-
-   # save predicted images to compare with test images
    if not os.path.exists(os.path.join(os.getcwd(), 'result')):
       os.mkdir('./result')
    for i in range(len(predicted)):
@@ -293,6 +294,22 @@ def startTraining() -> None:
       plt.tight_layout()
       fileName = "./result/" + str(i) + ".png"
       fig.savefig(fname=fileName)
+
+
+def startTraining() -> None:
+   """
+   Action
+
+   :return: None
+   """
+   preprocessData()
+   trainImages, trainOutlines = loadTrainData()
+   testImages  = loadTestData()
+
+   model       = defineModel(xTrain=trainImages, yTrain=trainOutlines)
+
+   predicted   = model.predict(testImages)
+   savePredictedImages(predicted, testImages)
 
 
 if __name__ == '__main__':
