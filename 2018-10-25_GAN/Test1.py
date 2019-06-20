@@ -22,7 +22,7 @@ NUM_WORDS = 3
 BATCH_SIZE = 64
 NUM_EPOCHS = 20
 
-counter = collections.Counter()
+nthGeneration = collections.Counter()
 fin = codecs.open(INPUT_FILE, "r", encoding='utf-8')
 maxlen = 0
 # you have to download the nltk data
@@ -45,11 +45,11 @@ for line in fin:
    if len(words) > maxlen:
       maxlen = len(words)
    for word in words:
-      counter[word] += 1
+      nthGeneration[word] += 1
 fin.close()
 
 word2index = collections.defaultdict(int)
-for wid, word in enumerate(counter.most_common(VOCAB_SIZE)):
+for wid, word in enumerate(nthGeneration.most_common(VOCAB_SIZE)):
    word2index[word[0]] = wid + 1
 # Adding one because UNK. It means representing words that are not seen in the vocubulary
 vocab_sz = len(word2index) + 1

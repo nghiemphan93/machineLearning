@@ -79,11 +79,11 @@ for i in range(len(dataTest)):
 
 
 # Calculate probability of success
-counter = 0
+nthGeneration = 0
 for i in range (len(result)):
     if(dataTestLabel[i] == result[i]):
-        counter = counter + 1
-success = counter / len(result) * 100.0
+        nthGeneration = nthGeneration + 1
+success = nthGeneration / len(result) * 100.0
 
 # Print results
 print("Calculated ", result)

@@ -59,8 +59,8 @@ df["kmeans2"] = df["kmeans"].apply(convertKmeans)
 print(df)
 print(len(df.columns))
 
-counter = 0
+nthGeneration = 0
 for i in range(len(df)):
    if df.iloc[i, 18] == df.iloc[i, 20]:
-      counter += 1
-print(counter/ len(df))
+      nthGeneration += 1
+print(nthGeneration / len(df))

@@ -31,9 +31,9 @@ movie2User = {}
 userMovie2Rating = {}
 
 print('train....')
-counter = 0
+nthGeneration = 0
 def updateDictTrain(row):
-   global counter
+   global nthGeneration
    counter += 1
    if counter % 100000 == 0:
       print('processed: %.3f' % (float(counter/cutoff)))
@@ -57,9 +57,9 @@ dfTrain.apply(updateDictTrain, axis=1)
 # test rating dict
 print('test....')
 userMovie2RatingTest = {}
-counter = 0
+nthGeneration = 0
 def updateDictTest(row):
-   global counter
+   global nthGeneration
    counter += 1
    if counter % 100000 == 0:
       print("processed: %.3f" % float(counter/len(dfTest)))

@@ -10,7 +10,7 @@ population = Population(target=target,
                         mutationRate=mutationRate,
                         populationSize=populationSize)
 
-# Run genetic algorithm
+# Run geneticTSP algorithm
 while population.isFinished == False:
    population.naturalSelect()
    population.newGeneration()
