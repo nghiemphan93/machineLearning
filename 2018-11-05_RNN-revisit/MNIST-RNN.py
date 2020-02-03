@@ -1,20 +1,22 @@
 import tensorflow as tf
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, LSTM, CuDNNLSTM
+
+
+# from keras.models import Sequential
+# from keras.layers import Dense, Dropout, LSTM
 
 mnist = tf.keras.datasets.mnist
 
 (trainData, trainLabel), (testData, testLabel) = mnist.load_data()
 
-model = Sequential()
-model.add(CuDNNLSTM(128, input_shape=(trainData[0].shape),
-                    return_sequences=True))
-model.add(Dropout(0.2))
-model.add(CuDNNLSTM(128))
-model.add(Dropout(0.2))
-model.add(Dense(32, activation="relu"))
-model.add(Dropout(0.2))
-model.add(Dense(10, activation="softmax"))
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.LSTM(128, input_shape=(trainData[0].shape),
+               return_sequences=True))
+model.add(tf.keras.layers.Dropout(0.2))
+model.add(tf.keras.layers.LSTM(128))
+model.add(tf.keras.layers.Dropout(0.2))
+model.add(tf.keras.layers.Dense(32, activation="relu"))
+model.add(tf.keras.layers.Dropout(0.2))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
 
 model.compile(loss="sparse_categorical_crossentropy",
               optimizer="adam",

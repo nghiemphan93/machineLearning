@@ -2,18 +2,23 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
 pd.set_option('display.expand_frame_repr', False)
 import datetime
 from matplotlib import style
+
 style.use('fivethirtyeight')
 from pandas.core.frame import DataFrame
 from pandas.tseries.offsets import MonthEnd
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, CuDNNLSTM, LSTM
+# from keras.models import Sequential
+# from keras.layers import Dropout, CuDNNLSTM, LSTM
+# from keras.layers.core import Dense
 import keras.backend as K
 from keras.callbacks import EarlyStopping
-
+import tensorflow as tf
+from tensorflow.keras.layers import Dense, Dropout, CuDNNLSTM
+from tensorflow.keras.models import Sequential
 
 columns = ["adjustments", "unadjusted", "seasonallyAdjusted"]
 df = pd.read_csv("./canSales.csv",
@@ -47,7 +52,6 @@ yTrain = trainSC[1:]
 
 xTest = testSC[:-1]
 yTest = testSC[1:]
-
 
 '''
 # Fully connected model
@@ -84,7 +88,7 @@ print(xTest.shape)
 
 model = Sequential()
 model.add(CuDNNLSTM(50, input_shape=(xTrain.shape[1], xTrain.shape[2]),
-                    return_sequences=True))
+               return_sequences=True))
 model.add(Dropout(0.2))
 model.add(CuDNNLSTM(50, return_sequences=True))
 model.add(Dropout(0.2))

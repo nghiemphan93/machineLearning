@@ -9,8 +9,8 @@ style.use('fivethirtyeight')
 from pandas.core.frame import DataFrame
 from pandas.tseries.offsets import MonthEnd
 from sklearn.preprocessing import MinMaxScaler
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, CuDNNLSTM, LSTM
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, CuDNNLSTM, LSTM
 from keras.callbacks import EarlyStopping
 
 # Import Data

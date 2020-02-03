@@ -48,10 +48,10 @@ def drawCities(pop: Population) -> None:
 
 
 if __name__ == "__main__":
-   numbCities = 20  # number of cities
-   mutationRate = 0.1  # rate of diversity, large means more diverse
-   populationSize = 100  # size of each generation
-   eliteRate = 0.1  # how many current best DNAs to keep for next generation
+   numbCities = 20         # number of cities
+   mutationRate = 0.1      # rate of diversity, large means more diverse
+   populationSize = 100    # size of each generation
+   eliteRate = 0.1         # how many current best DNAs to keep for next generation
    population = Population(numbCities=numbCities,
                            mutationRate=mutationRate,
                            populationSize=populationSize,
